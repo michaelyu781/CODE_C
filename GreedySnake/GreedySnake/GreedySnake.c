@@ -17,8 +17,26 @@ struct snake_struct {
 	int dir;
 	struct snake_struct* next;
 };
-struct snake_struct* head,*tail;
+struct snake_struct* head, * tail;
 
+/***************************************************************************
+  函数名称：
+  功    能：设置指定的颜色
+  输入参数：const int bg_color ：背景色（0-15）
+			const int fg_color ：前景色（0-15）
+  返 回 值：
+  说    明：颜色的取值由背景色+前景色组成，各16种
+			fg_color：0-7    黑   蓝   绿   青   红   粉   黄   白
+					  8-15 亮黑 亮蓝 亮绿 亮青 亮红 亮粉 亮黄 亮白
+			bg_color：0-7    黑   蓝   绿   青   红   粉   黄   白
+					  8-15 亮黑 亮蓝 亮绿 亮青 亮红 亮粉 亮黄 亮白
+			最终的颜色为 背景色*16+前景色
+***************************************************************************/
+void cct_setcolor(const int bg_color, const int fg_color)
+{
+	const HANDLE __hout = GetStdHandle(STD_OUTPUT_HANDLE); //取标准输出设备对应的句柄
+	SetConsoleTextAttribute(__hout,bg_color * 16 + fg_color);
+}
 
 /***************************************************************************
   函数名称：gotoxy
@@ -70,7 +88,7 @@ start:
 	for (int i = 0; i < 2; i++)
 	{
 		struct snake_struct* snake = create_snake();
-		tail=tail->next = snake;
+		tail = tail->next = snake;
 		snake->x = x;
 		snake->y = y + i + 1;
 		snake->dir = 0;
@@ -79,7 +97,7 @@ start:
 }
 
 void draw_snake() {
-	struct snake_struct* p=head;
+	struct snake_struct* p = head;
 	while (p != NULL) {
 		map[p->x][p->y] = block_pattern[0];
 		p = p->next;
@@ -106,7 +124,7 @@ void init_map() {
 	draw_food();
 }
 
-void snake_move() { 
+void snake_move() {
 	struct snake_struct* p = create_snake();
 	p->x = head->x + dir[head->dir][0];
 	p->y = head->y + dir[head->dir][1];
@@ -147,7 +165,7 @@ void print_map() {
 		for (int j = 0; j < 20; j++)
 			printf("%s", map[i][j]);
 		printf("\n");
-	}		
+	}
 }
 
 char menu() {
@@ -166,11 +184,7 @@ char menu() {
 int is_snake_die() {
 	if (head->x == 0 || head->x == 19) return 1;   //knock the wall
 	if (head->y == 0 || head->y == 19) return 1;   //knock the wall
-	if (map[head->x+dir[head->dir][0]][head->y+dir[head->dir][1]] == block_pattern[0]) {
-		if (head->dir == 0 && head->next->dir == 1) return 0;
-		if (head->dir == 1 && head->next->dir == 0) return 0;
-		if (head->dir == 2 && head->next->dir == 3) return 0;
-		if (head->dir == 3 && head->next->dir == 2) return 0;
+	if (map[head->x + dir[head->dir][0]][head->y + dir[head->dir][1]] == block_pattern[0]) {
 		return 1;								   //eat itself
 	}
 	return 0;
@@ -184,7 +198,7 @@ int is_clean() {
 }
 
 void is_food_eaten() {
-	if (map[head->x+dir[head->dir][0]][head->y+dir[head->dir][1]] == block_pattern[1]) {
+	if (map[head->x + dir[head->dir][0]][head->y + dir[head->dir][1]] == block_pattern[1]) {
 		score += 10;
 		struct snake_struct* p;
 		p = (struct snake_struct*)malloc(sizeof(struct snake_struct));
