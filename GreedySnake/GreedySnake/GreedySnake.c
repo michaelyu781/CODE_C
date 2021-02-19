@@ -79,7 +79,7 @@ void init_head() {
 start:
 	x = rand() % 18 + 1;
 	y = rand() % 18 + 1;
-	if (x > 16) goto start;
+	if (x > 15) goto start;
 	head = create_snake();
 	tail = head;
 	head->x = x;
