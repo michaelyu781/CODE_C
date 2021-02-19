@@ -143,7 +143,7 @@ void snake_move() {
   函数名称：GetAsyncKeyState()
   功    能：确定用户当前是否按下了键盘上某个键.若按，返回非0，否则返回0
 			特别的：持续按着高位非0，否则低位非0
-			使用中将参数&1，用于区分
+			使用中将参数&1，用于区分为按着还是按了一下
 			（异步检测）
   输入参数：希望被检测的字母
   返 回 值：short型
@@ -175,6 +175,7 @@ char menu() {
 	printf("Enter 'E' or 'e' for easy\n");
 	printf("Enter 'M' or 'm' for medium\n");
 	printf("Enter 'H' or 'h' for hard\n");
+	printf("Default is easy\n");
 	printf("your choice:");
 	char ch = getchar();
 	return ch;
@@ -184,11 +185,15 @@ char menu() {
 int is_snake_die() {
 	if (head->x == 0 || head->x == 19) return 1;   //knock the wall
 	if (head->y == 0 || head->y == 19) return 1;   //knock the wall
-	if (map[head->x + dir[head->dir][0]][head->y + dir[head->dir][1]] == block_pattern[0]) {
-		return 1;								   //eat itself
+	struct snake_struct* p = head->next;
+	while (p != NULL) {
+		if (head->x == p->x && head->y == p->y)
+			return 1;							   //eat itself
+		p = p->next;
 	}
 	return 0;
 }
+
 
 int is_clean() {
 	for (int i = 1; i < 19; i++)
@@ -196,7 +201,6 @@ int is_clean() {
 			if (map[i][j] == block_pattern[1]) return 0;
 	return 1;
 }
-
 void is_food_eaten() {
 	if (map[head->x + dir[head->dir][0]][head->y + dir[head->dir][1]] == block_pattern[1]) {
 		score += 10;
@@ -222,18 +226,25 @@ int main() {
 	print_map();
 	while (1) {
 		gotoxy(hout, 0, 0);
-		switch (level)
+		//this is used to slow the moving speed.using function Sleep() instead
+		/*switch (level)
 		{
-		case 'e':case 'E':for (long i = 0; i < 100000000; i++); break;//this is used to slow the moving speed
+		case 'e':case 'E':for (long i = 0; i < 100000000; i++); break;
 		case 'm':case 'M':for (long i = 0; i < 100000; i++); break;
 		case 'h':case 'H':break;
-		default:printf("Please enter again:");
+		default:break;	
+		}*/
+		switch (level)
+		{
+			default:case'e':case'E':Sleep(200); break;
+			case'm':case'M':Sleep(100); break;
+			case'h':case'H':break;
 		}
 		snake_dir();
 		is_food_eaten();
-		if (is_snake_die()) break;
 		snake_move();
 		print_map();
+		if (is_snake_die()) break;
 		gotoxy(hout, 0, 20);
 		printf("SCORE:%d", score);
 	}
