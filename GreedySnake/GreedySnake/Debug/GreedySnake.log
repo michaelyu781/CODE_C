@@ -1,6 +1,6 @@
 ﻿  GreedySnake.c
 D:\codefield\CODE_C\GreedySnake\GreedySnake\GreedySnake.c(102,37): warning C4090: “=”: 不同的“const”限定符
-D:\codefield\CODE_C\GreedySnake\GreedySnake\GreedySnake.c(112,30): warning C4090: “=”: 不同的“const”限定符
+D:\codefield\CODE_C\GreedySnake\GreedySnake\GreedySnake.c(111,30): warning C4090: “=”: 不同的“const”限定符
+D:\codefield\CODE_C\GreedySnake\GreedySnake\GreedySnake.c(116,72): warning C4090: “=”: 不同的“const”限定符
 D:\codefield\CODE_C\GreedySnake\GreedySnake\GreedySnake.c(117,72): warning C4090: “=”: 不同的“const”限定符
-D:\codefield\CODE_C\GreedySnake\GreedySnake\GreedySnake.c(118,72): warning C4090: “=”: 不同的“const”限定符
   GreedySnake.vcxproj -> D:\codefield\CODE_C\GreedySnake\Debug\GreedySnake.exe

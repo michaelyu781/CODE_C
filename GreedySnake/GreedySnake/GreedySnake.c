@@ -79,7 +79,7 @@ void init_head() {
 start:
 	x = rand() % 18 + 1;
 	y = rand() % 18 + 1;
-	if (x > 15) goto start;
+	if (y > 15) goto start;
 	head = create_snake();
 	tail = head;
 	head->x = x;
@@ -103,7 +103,6 @@ void draw_snake() {
 		p = p->next;
 	}
 }
-
 
 void draw_food() {
 	//srand(time(NULL));
@@ -226,14 +225,6 @@ int main() {
 	print_map();
 	while (1) {
 		gotoxy(hout, 0, 0);
-		//this is used to slow the moving speed.using function Sleep() instead
-		/*switch (level)
-		{
-		case 'e':case 'E':for (long i = 0; i < 100000000; i++); break;
-		case 'm':case 'M':for (long i = 0; i < 100000; i++); break;
-		case 'h':case 'H':break;
-		default:break;	
-		}*/
 		switch (level)
 		{
 			default:case'e':case'E':Sleep(200); break;
